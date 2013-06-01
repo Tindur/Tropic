@@ -32,7 +32,7 @@ var twit = new twitter({
 
 io.sockets.on("connection", function (socket) {
     socket.on('create stream', function (data) {
-        console.log(data);
+        // console.log(data);
         if (mainstream !== undefined) {
             mainstream.destroy();
             console.log("destroying previos mainstream");
