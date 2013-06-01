@@ -18,6 +18,11 @@ app.configure(function(){
     app.use(app.router);
 });
 
+io.configure(function () { 
+  io.set("transports", ["xhr-polling"]); 
+  io.set("polling duration", 10); 
+});
+
 var twit = new twitter({
     consumer_key: 'GZqfJsBQM80uRyuGtVcTkw',
     consumer_secret: 'WqpulpVjUN0WAzejAFzwRiqXoSm98ksYYpe2vPusQ',
@@ -27,14 +32,16 @@ var twit = new twitter({
 
 io.sockets.on("connection", function (socket) {
     socket.on('create stream', function (data) {
+        // console.log(data);
         if (mainstream !== undefined) {
             mainstream.destroy();
+            console.log("destroying previos mainstream");
         }
-        twit.stream('statuses/filter', { track: 'restaurants', locations: data.lat1 + ',' + data.lng1 + ',' + data.lat2 + ',' + data.lng2 }, function(stream) {
+        twit.stream('statuses/filter', { locations: data.lat1 + ',' + data.lng1 + ',' + data.lat2 + ',' + data.lng2 }, function(stream) {
             mainstream = stream;
-            // console.log('listening for keywords');
+            console.log('listening for keywords');
             mainstream.on('data', function (data) {
-                console.log('i sent a tweet to the client', data);
+                // console.log('i sent a tweet to the client', data);
                 io.sockets.emit('tweet', data.text);
             });
         });

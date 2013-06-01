@@ -1,5 +1,5 @@
-
-
-socket.on('tweet', function (data) {
-    console.log(data);
+$(document).ready(function () {
+	socket.on('tweet', function (data) {
+	    console.log(data);
+	});
 });
