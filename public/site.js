@@ -138,7 +138,10 @@ $(document).ready(function () {
         };
 
         var keyword = function keyword() {
-            console.log("keyword");
+            console.log("keyword", $('#keywords').val());
+            var bounds = map.getBounds();
+            socket.emit("create stream", { lat1: bounds.fa.b, lng1: bounds.$.b, lat2: bounds.fa.d, lng2: bounds.$.d, keyword: $('#keywords').val(), topic: true });
+
         };
 
         google.maps.event.addDomListener(document, 'keypress', function(e) {

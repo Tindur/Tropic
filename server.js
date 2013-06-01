@@ -37,9 +37,9 @@ io.sockets.on("connection", function (socket) {
             mainstream.destroy();
             console.log("destroying previous mainstream");
         }
-        twit.stream('statuses/filter', { locations: data.lat1 + ',' + data.lng1 + ',' + data.lat2 + ',' + data.lng2 }, function(stream) {
+        twit.stream('statuses/filter', { tracker: data.keyword, locations: data.lat1 + ',' + data.lng1 + ',' + data.lat2 + ',' + data.lng2 }, function(stream) {
             mainstream = stream;
-            console.log('listening for keywords');
+            console.log('listening for keywords', data.keyword);
             mainstream.on('data', function (data) {
                 // console.log('i sent a tweet to the client', data);
                 io.sockets.emit('tweet', data);
