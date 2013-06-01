@@ -114,11 +114,14 @@ $(document).ready(function () {
 
     function CustomControl(controlDiv, map) {
         var geocoder = new google.maps.Geocoder();
+        var search_value = document.getElementById('search_address');
+        var keywords_value = document.getElementById('keywords');
 
         var search = function search() {
+            console.log("Search");
             geocoder.geocode(
                 {
-                    'address': document.getElementById('search_address').value},
+                    'address': search_value.value},
                 function(results, status) {
                     if (status == google.maps.GeocoderStatus.OK) {
                         var loc = results[0].geometry.location;
@@ -134,16 +137,18 @@ $(document).ready(function () {
             );
         };
 
-        google.maps.event.addDomListener(document.getElementById('search_address'), 'keypress', function(e) {
+        var keyword = function keyword() {
+            console.log("keyword");
+        };
+
+        google.maps.event.addDomListener(document, 'keypress', function(e) {
             if (e.keyCode == 13) {
-                search();
+                if($("#customControls input:focus").attr('id') === 'search_address')
+                    search();
+                else if($("#customControls input:focus").attr('id') === 'keywords')
+                    keyword();
                 return false;
             }
-        });
-
-        // Setup the click event listeners: simply set the map to
-        google.maps.event.addDomListener(document.getElementById('search_address'), 'click', function() {
-            search();
         });
 
     }
