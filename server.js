@@ -27,7 +27,6 @@ var twit = new twitter({
 twit.stream('statuses/filter', { track: 'restaurants', locations: '-122.75,36.8,-121.75,37.8' }, function(stream) {
     console.log('listening for keywords');
     stream.on('data', function (data) {
-        console.log('i sent a tweet to the client', data);
         io.sockets.emit('tweet', data.text);
     });
 });
