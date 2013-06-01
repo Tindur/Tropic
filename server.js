@@ -3,6 +3,7 @@ var twitter = require("twitter");
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server, {log: false});
+var mainstream;
 
 app.use(express.logger());
 
@@ -24,10 +25,17 @@ var twit = new twitter({
     access_token_secret: 'gOwqsLIiybsyq9AY8jP8lRZJ7inr3oLN1aUYmZwTJ8A'
 });
 
-twit.stream('statuses/filter', { track: 'restaurants', locations: '-122.75,36.8,-121.75,37.8' }, function(stream) {
-    console.log('listening for keywords');
-    stream.on('data', function (data) {
-        io.sockets.emit('tweet', data.text);
+socket.on('create stream', function (data) {
+    if (mainstream !== undefined) {
+        mainstream.destroy();
+    }
+    twit.stream('statuses/filter', { track: 'restaurants', locations: '-122.75,36.8,-121.75,37.8' }, function(stream) {
+        mainstream = stream;
+        console.log('listening for keywords');
+        mainstream.on('data', function (data) {
+            console.log('i sent a tweet to the client', data);
+            io.sockets.emit('tweet', data.text);
+        });
     });
 });
 
