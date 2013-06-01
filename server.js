@@ -25,16 +25,18 @@ var twit = new twitter({
     access_token_secret: 'gOwqsLIiybsyq9AY8jP8lRZJ7inr3oLN1aUYmZwTJ8A'
 });
 
-socket.on('create stream', function (data) {
-    if (mainstream !== undefined) {
-        mainstream.destroy();
-    }
-    twit.stream('statuses/filter', { track: 'restaurants', locations: '-122.75,36.8,-121.75,37.8' }, function(stream) {
-        mainstream = stream;
-        console.log('listening for keywords');
-        mainstream.on('data', function (data) {
-            console.log('i sent a tweet to the client', data);
-            io.sockets.emit('tweet', data.text);
+io.sockets.on("connection", function (socket) {
+    socket.on('create stream', function (data) {
+        if (mainstream !== undefined) {
+            mainstream.destroy();
+        }
+        twit.stream('statuses/filter', { track: 'restaurants', locations: '-122.75,36.8,-121.75,37.8' }, function(stream) {
+            mainstream = stream;
+            console.log('listening for keywords');
+            mainstream.on('data', function (data) {
+                console.log('i sent a tweet to the client', data);
+                io.sockets.emit('tweet', data.text);
+            });
         });
     });
 });

@@ -1,6 +1,8 @@
 $(document).ready(function () {
     var longitude, latitude, map, markers;
 
+    var socket = io.connect('/');
+
     var infowindow = new google.maps.InfoWindow({});
 
     function initialize() {
@@ -14,6 +16,7 @@ $(document).ready(function () {
 
         google.maps.event.addListener(map, "bounds_changed", function() {
             console.log("map bounds: ", map.getBounds().toString());
+            socket.emit("create stream", {});
         });
     }
 
