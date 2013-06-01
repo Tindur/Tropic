@@ -79,48 +79,12 @@ $(document).ready(function () {
     }
 
     function CustomControl(controlDiv, map) {
-
-        // Set CSS styles for the DIV containing the control
-        // Setting padding to 15 px will offset the control
-        // from the edge of the map
-        controlDiv.style.padding = '15px';
-
-        // Set CSS for the control border
-        var controlUI = document.createElement('div');
-        controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,0.3),0 -3px 8px rgba(0,0,0,0.2)';
-        controlUI.style.borderRadius = '2px';
-        controlUI.style.backgroundColor = 'white';
-        controlUI.style.cursor = 'pointer';
-        controlUI.style.textAlign = 'center';
-        controlUI.style.padding = '8px';
-        controlUI.style.color = '#666';
-        controlDiv.appendChild(controlUI);
-
-        // Set CSS for the control interior
-        var controlText = document.createElement('div');
-        controlText.style.fontFamily = 'Arial,sans-serif';
-        controlText.style.fontSize = '12px';
-        controlText.style.paddingLeft = '4px';
-        controlText.style.paddingRight = '4px';
-        controlUI.appendChild(controlText);
-
-        var searchBox = document.createElement('input');
-        searchBox.id = "search_address";
-        searchBox.placeholder = 'Search';
-        searchBox.style.fontSize = '16px';
-        controlUI.appendChild(searchBox);
-
-        /*var searchButton = document.createElement('button');
-
-        searchButton.id = "search_address";
-        controlUI.appendChild(searchButton); */
-        //controlText.innerHTML = '<input type="text" id="search_address" value=""/><button onclick="search();">Search</button>';
         var geocoder = new google.maps.Geocoder();
 
         var search = function search() {
             geocoder.geocode(
                 {
-                    'address': searchBox.value},
+                    'address': document.getElementById('search_address').value},
                 function(results, status) {
                     if (status == google.maps.GeocoderStatus.OK) {
                         var loc = results[0].geometry.location;
@@ -136,7 +100,7 @@ $(document).ready(function () {
             );
         };
 
-        google.maps.event.addDomListener(controlUI, 'keypress', function(e) {
+        google.maps.event.addDomListener(document.getElementById('search_address'), 'keypress', function(e) {
             if (e.keyCode == 13) {
                 search();
                 return false;
@@ -144,7 +108,7 @@ $(document).ready(function () {
         });
 
         // Setup the click event listeners: simply set the map to
-        google.maps.event.addDomListener(controlUI, 'click', function() {
+        google.maps.event.addDomListener(document.getElementById('search_address'), 'click', function() {
             search();
         });
 
