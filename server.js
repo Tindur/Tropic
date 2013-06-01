@@ -24,11 +24,11 @@ var twit = new twitter({
     access_token_secret: 'gOwqsLIiybsyq9AY8jP8lRZJ7inr3oLN1aUYmZwTJ8A'
 });
 
-twit.stream('statuses/filter', { track: 'Tommi TwoTimes' }, function(stream) {
+twit.stream('statuses/filter', { track: 'restaurants', locations: '-122.75,36.8,-121.75,37.8' }, function(stream) {
     console.log('listening for keywords');
     stream.on('data', function (data) {
+        console.log('i sent a tweet to the client', data);
         io.sockets.emit('tweet', data.text);
-        console.log('i sent a tweet to the client');
     });
 });
 
