@@ -77,7 +77,7 @@ $(document).ready(function () {
     }
 
     function addTweetMarker(data) {
-        if(data.coordinates !== null) {
+        if(data.hasOwnProperty('coordinates') && data.coordinates !== null) {
             console.log(data.coordinates.coordinates);
             var lat = data.coordinates.coordinates[1];
             var lng = data.coordinates.coordinates[0];
@@ -85,7 +85,9 @@ $(document).ready(function () {
 
             var myLatLng = new google.maps.LatLng(lat, lng);
 
-            var contentString = "<html><body><div><h2>" + text + "</h2></div></body></html>";
+            var contentString = "<blockquote class=\"twitter-tweet\"><p>" + text + "</p>&mdash;" + data.user.name + " (@" + data.user.screen_name + ") <a href=\"https://twitter.com/" + data.user.screen_name + "/status/" + data.id_str + "\">" + data.created_at + "</a></blockquote> <script async src=\"http://platform.twitter.com/widgets.js\" charset=\"utf-8\"></script>";
+
+            // var contentString = "<html><body><div><h2>" + text + "</h2></div></body></html>";
 
             var marker = new google.maps.Marker({
                 position: myLatLng,
@@ -98,11 +100,12 @@ $(document).ready(function () {
                 infowindow.setContent(this['infowindow']);
                 infowindow.open(map, this);
             });
+            twttr.widgets.load();
 
         }
     }
     socket.on('tweet', function (data) {
-        // console.log(data);
+        console.log(data);
         addTweetMarker(data);
     });
 });
