@@ -106,11 +106,12 @@ $(document).ready(function () {
 
         var searchBox = document.createElement('input');
         searchBox.id = "search_address";
+        searchBox.placeholder = 'Search';
         searchBox.style.fontSize = '16px';
         controlUI.appendChild(searchBox);
 
         /*var searchButton = document.createElement('button');
-        searchBox.placeholder = 'Search';
+
         searchButton.id = "search_address";
         controlUI.appendChild(searchButton); */
         //controlText.innerHTML = '<input type="text" id="search_address" value=""/><button onclick="search();">Search</button>';
