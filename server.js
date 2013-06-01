@@ -30,7 +30,7 @@ io.sockets.on("connection", function (socket) {
         if (mainstream !== undefined) {
             mainstream.destroy();
         }
-        twit.stream('statuses/filter', { track: 'restaurants', locations: '-122.75,36.8,-121.75,37.8' }, function(stream) {
+        twit.stream('statuses/filter', { track: 'restaurants', locations: data.lat1 + ',' + data.lng1 + ',' + data.lat2 + ',' + data.lng2 }, function(stream) {
             mainstream = stream;
             // console.log('listening for keywords');
             mainstream.on('data', function (data) {
