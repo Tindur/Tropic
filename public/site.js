@@ -14,6 +14,12 @@ $(document).ready(function () {
         };
         map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
+        // Add custom controls to map
+        var customControlDiv = document.createElement('div');
+        var customControl = new CustomControl(customControlDiv, map);
+        customControlDiv.index = 1;
+        map.controls[google.maps.ControlPosition.RIGHT_TOP].push(customControlDiv);
+
         google.maps.event.addListener(map, "bounds_changed", function() {
             console.log("map bounds: ", map.getBounds());
             var bounds = map.getBounds();
@@ -70,5 +76,41 @@ $(document).ready(function () {
                 infowindow.open(map, this);
             });
         }
+    }
+
+    function CustomControl(controlDiv, map) {
+
+        // Set CSS styles for the DIV containing the control
+        // Setting padding to 15 px will offset the control
+        // from the edge of the map
+        controlDiv.style.padding = '15px';
+
+        // Set CSS for the control border
+        var controlUI = document.createElement('div');
+        controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,0.3),0 -3px 8px rgba(0,0,0,0.2)';
+        controlUI.style.borderRadius = '2px';
+        controlUI.style.backgroundColor = 'white';
+        controlUI.style.cursor = 'pointer';
+        controlUI.style.textAlign = 'center';
+        controlUI.style.padding = '8px';
+        controlUI.style.color = '#666';
+        controlDiv.appendChild(controlUI);
+
+        // Set CSS for the control interior
+        var controlText = document.createElement('div');
+        controlText.style.fontFamily = 'Arial,sans-serif';
+        controlText.style.fontSize = '12px';
+        controlText.style.paddingLeft = '4px';
+        controlText.style.paddingRight = '4px';
+        controlText.innerHTML = '<input type="text" />';
+        controlUI.appendChild(controlText);
+
+        // Setup the click event listeners: simply set the map to
+        // Chicago
+        /*var chicago = new google.maps.LatLng(41.850033, -87.6500523);
+        google.maps.event.addDomListener(controlUI, 'click', function() {
+            map.setCenter(chicago)
+        }); */
+
     }
 });
