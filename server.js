@@ -18,6 +18,11 @@ app.configure(function(){
     app.use(app.router);
 });
 
+io.configure(function () { 
+  io.set("transports", ["xhr-polling"]); 
+  io.set("polling duration", 10); 
+});
+
 var twit = new twitter({
     consumer_key: 'GZqfJsBQM80uRyuGtVcTkw',
     consumer_secret: 'WqpulpVjUN0WAzejAFzwRiqXoSm98ksYYpe2vPusQ',
