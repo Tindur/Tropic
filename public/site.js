@@ -102,17 +102,53 @@ $(document).ready(function () {
         controlText.style.fontSize = '12px';
         controlText.style.paddingLeft = '4px';
         controlText.style.paddingRight = '4px';
-        controlText.innerHTML = '<input type="text" />';
         controlUI.appendChild(controlText);
 
+        var searchBox = document.createElement('input');
+        searchBox.id = "search_address";
+        searchBox.style.fontSize = '16px';
+        controlUI.appendChild(searchBox);
+
+        /*var searchButton = document.createElement('button');
+        searchBox.placeholder = 'Search';
+        searchButton.id = "search_address";
+        controlUI.appendChild(searchButton); */
+        //controlText.innerHTML = '<input type="text" id="search_address" value=""/><button onclick="search();">Search</button>';
+        var geocoder = new google.maps.Geocoder();
+
+        var search = function search() {
+            geocoder.geocode(
+                {
+                    'address': searchBox.value},
+                function(results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        var loc = results[0].geometry.location;
+                        longitude = loc.lng();
+                        latitude = loc.lat();
+                        map.setCenter(new google.maps.LatLng(latitude, longitude), 12);
+                        // use loc.lat(), loc.lng()
+                    }
+                    else {
+                        //alert("Not found: " + status);
+                    }
+                }
+            );
+        };
+
+        google.maps.event.addDomListener(controlUI, 'keypress', function(e) {
+            if (e.keyCode == 13) {
+                search();
+                return false;
+            }
+        });
+
         // Setup the click event listeners: simply set the map to
-        // Chicago
-        /*var chicago = new google.maps.LatLng(41.850033, -87.6500523);
         google.maps.event.addDomListener(controlUI, 'click', function() {
-            map.setCenter(chicago)
-        }); */
+            search();
+        });
 
     }
+
     socket.on('tweet', function (data) {
         console.log(data);
     });
