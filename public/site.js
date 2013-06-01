@@ -17,8 +17,8 @@ $(document).ready(function () {
         google.maps.event.addListener(map, "bounds_changed", function() {
             console.log("map bounds: ", map.getBounds());
             var bounds = map.getBounds();
-            console.log(bounds.$)
-            socket.emit("create stream", { lat1: bounds.$.b, lng1: bounds.fa.b, lat2: bounds.$.d, lng2: bounds.fa.d});
+            console.log(bounds.$);
+            socket.emit("create stream", { lat1: bounds.fa.b, lng1: bounds.$.b, lat2: bounds.fa.d, lng2: bounds.$.d });
         });
     }
 
@@ -71,4 +71,7 @@ $(document).ready(function () {
             });
         }
     }
+    socket.on('tweet', function (data) {
+        console.log(data);
+    });
 });
