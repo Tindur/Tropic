@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    var longitude, latitude, map, markers;
+    var longitude, latitude, map, markers, perflogen = true;
 
     var socket = io.connect('/');
 
@@ -18,7 +18,11 @@ $(document).ready(function () {
             console.log("map bounds: ", map.getBounds());
             var bounds = map.getBounds();
             console.log(bounds.$);
-            socket.emit("create stream", { lat1: bounds.fa.b, lng1: bounds.$.b, lat2: bounds.fa.d, lng2: bounds.$.d });
+            if(perflogen === true) {
+                perflogen = false;
+                socket.emit("create stream", { lat1: bounds.fa.b, lng1: bounds.$.b, lat2: bounds.fa.d, lng2: bounds.$.d });
+                setTimeout(function () { perflogen = true;}, 1000);
+            }
         });
     }
 
@@ -71,7 +75,34 @@ $(document).ready(function () {
             });
         }
     }
+
+    function addTweetMarker(data) {
+        if(data.coordinates !== null) {
+            console.log(data.coordinates.coordinates);
+            var lat = data.coordinates.coordinates[1];
+            var lng = data.coordinates.coordinates[0];
+            var text = data.text;
+
+            var myLatLng = new google.maps.LatLng(lat, lng);
+
+            var contentString = "<html><body><div><h2>" + text + "</h2></div></body></html>";
+
+            var marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: "This is your penis baby: " + lat + ", " + lng,
+                infowindow: contentString
+            });
+
+            google.maps.event.addListener(marker, 'click', function() {
+                infowindow.setContent(this['infowindow']);
+                infowindow.open(map, this);
+            });
+
+        }
+    }
     socket.on('tweet', function (data) {
-        console.log(data);
+        // console.log(data);
+        addTweetMarker(data);
     });
 });
