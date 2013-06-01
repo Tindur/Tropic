@@ -15,8 +15,10 @@ $(document).ready(function () {
         map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
         google.maps.event.addListener(map, "bounds_changed", function() {
-            console.log("map bounds: ", map.getBounds().toString());
-            socket.emit("create stream", {});
+            console.log("map bounds: ", map.getBounds());
+            var bounds = map.getBounds();
+            console.log(bounds.$)
+            socket.emit("create stream", { lat1: bounds.$.b, lng1: bounds.fa.b, lat2: bounds.$.d, lng2: bounds.fa.d});
         });
     }
 

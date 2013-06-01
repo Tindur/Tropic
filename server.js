@@ -32,7 +32,7 @@ io.sockets.on("connection", function (socket) {
         }
         twit.stream('statuses/filter', { track: 'restaurants', locations: '-122.75,36.8,-121.75,37.8' }, function(stream) {
             mainstream = stream;
-            console.log('listening for keywords');
+            // console.log('listening for keywords');
             mainstream.on('data', function (data) {
                 console.log('i sent a tweet to the client', data);
                 io.sockets.emit('tweet', data.text);
