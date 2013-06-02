@@ -3,7 +3,8 @@ $(document).ready(function () {
 
     var socket = io.connect('/');
 
-    var infowindow = new google.maps.InfoWindow({});
+    var infowindow = new google.maps.InfoWindow({
+    });
 
     function initialize() {
         console.log("shit");
@@ -103,7 +104,11 @@ $(document).ready(function () {
                 position: myLatLng,
                 map: map,
                 title: "This is your penis baby: " + lat + ", " + lng,
-                infowindow: contentString
+                infowindow: contentString,
+                icon: {
+                    url: '/twitter.png',
+                    scaledSize: new google.maps.Size(50, 50)
+                }
             });
 
             google.maps.event.addListener(marker, 'click', function() {
