@@ -27,7 +27,10 @@ $(document).ready(function () {
             console.log(bounds.$);
             if(perflogen === true) {
                 perflogen = false;
-                socket.emit("create stream", { lat1: bounds.fa.b, lng1: bounds.$.b, lat2: bounds.fa.d, lng2: bounds.$.d });
+                if($('#keywords').val())
+                    socket.emit("create stream", { lat1: bounds.fa.b, lng1: bounds.$.b, lat2: bounds.fa.d, lng2: bounds.$.d, keyword: $('#keywords').val() });
+                else
+                    socket.emit("create stream", { lat1: bounds.fa.b, lng1: bounds.$.b, lat2: bounds.fa.d, lng2: bounds.$.d });
                 setTimeout(function () { perflogen = true;}, 1000);
             }
         });
