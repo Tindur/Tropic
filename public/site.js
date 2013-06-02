@@ -51,7 +51,6 @@ $(document).ready(function () {
         $("#text").html("Latitude: " + latitude + "<br>Longitude: " + longitude); 
         map.setCenter(new google.maps.LatLng(latitude, longitude), 12);
         markers = [[latitude, longitude, "current"],[latitude+0.05,longitude+0.05,"+0.05"],[latitude-0.05,longitude-0.05,"-0.05"]];
-        addMarker();
     }
 
     function addMarker() {
@@ -85,7 +84,7 @@ $(document).ready(function () {
 
     function addTweetMarker(data) {
         if(data.hasOwnProperty('coordinates') && data.coordinates !== null) {
-            console.log(data.coordinates.coordinates);
+            // console.log(data.coordinates.coordinates);
             var lat = data.coordinates.coordinates[1];
             var lng = data.coordinates.coordinates[0];
             var text = data.text;
@@ -99,7 +98,7 @@ $(document).ready(function () {
             var marker = new google.maps.Marker({
                 position: myLatLng,
                 map: map,
-                title: "This is your penis baby: " + lat + ", " + lng,
+                title: "Coordinates: " + lat + ", " + lng,
                 infowindow: contentString
             });
 
@@ -108,7 +107,6 @@ $(document).ready(function () {
                 infowindow.open(map, this);
             });
             twttr.widgets.load();
-
         }
     }
 
@@ -185,7 +183,7 @@ $(document).ready(function () {
     }
 
     socket.on('tweet', function (data) {
-        console.log(data);
+        // console.log(data);
         addTweetMarker(data);
     });
 });
