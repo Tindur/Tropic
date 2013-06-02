@@ -39,6 +39,7 @@ io.sockets.on("connection", function (socket) {
         }
         twit.stream('statuses/filter', { locations: data.lat1 + ',' + data.lng1 + ',' + data.lat2 + ',' + data.lng2 }, function(stream) {
             mainstream = stream;
+
             console.log('listening for keywords');
             try {
                 mainstream.on('data', function (data) {
@@ -49,6 +50,14 @@ io.sockets.on("connection", function (socket) {
             catch (err) {
                 console.log(err);
             }
+            var keyword = data.keyword;
+            console.log('listening for keywords', data.keyword);
+            mainstream.on('data', function (data) {
+                if(keyword === undefined || keyword === '' )
+                    io.sockets.emit('tweet', data);
+                else if(data.text && data.text.indexOf(keyword) != -1)
+                    io.sockets.emit('tweet', data);
+            });
         });
     });
 });

@@ -8,7 +8,14 @@
         	padding: 0;
         	height: 100%;
       }
-      .customControl {
+      #map {
+          position: relative;
+      }
+      #customControls {
+          position: absolute;
+          top: 40px;
+          right: 40px;
+          z-index: 50;
           background: #fff;
           border-radius: 2px;
           box-shadow: 0 2px 6px rgba(0,0,0,0.3),0 -3px 8px rgba(0,0,0,0.2);
@@ -20,7 +27,6 @@
           outline: none;
           overflow: hidden;
           position: absolute;
-          width: 400px;
           z-index: 0;
           -webkit-transition: background-color 200ms cubic-bezier(0.52,0,0.48,1);
           -moz-transition: background-color 200ms cubic-bezier(0.52,0,0.48,1);
@@ -28,6 +34,15 @@
           -o-transition: background-color 200ms cubic-bezier(0.52,0,0.48,1);
           transition: background-color 200ms cubic-bezier(0.52,0,0.48,1);
           color: #666;
+          padding: 15px;
+          font-size: 15px;
+      }
+      #customControls .text {
+          font-size: 16px;
+          border: 1px solid #ccc;
+          padding: 2px 4px;
+          display: block;
+          margin-bottom: 10px;
       }
 	</style>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
@@ -36,10 +51,20 @@
 	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
 	<script type="text/javascript" src="/site.js"></script>
 	<script type="text/javascript" src="/tweets.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="/font-awesome/docs/assets/css/font-awesome.css">
 </head>
 <body>
 	<p id="text">Your ass man!</p>
 	<button id="myGeo" >To my location</button>
-	<div id="map-canvas"></div>
+    <div id="map">
+        <div id="map-canvas"></div>
+        <div id="customControls">
+            <input class="text" type="text" placeholder="Search" id="search_address" />
+            <input class="text" type="text" placeholder="Keywords.." id="keywords" />
+            <label><input type="checkbox" id="topics" value="topics" /> Topic</label>
+        </div>
+
+    </div>
 </body>
 </html>
