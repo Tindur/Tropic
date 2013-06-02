@@ -118,48 +118,15 @@ $(document).ready(function () {
     }
 
     function CustomControl(controlDiv, map) {
-
-        // Set CSS styles for the DIV containing the control
-        // Setting padding to 15 px will offset the control
-        // from the edge of the map
-        controlDiv.style.padding = '15px';
-
-        // Set CSS for the control border
-        var controlUI = document.createElement('div');
-        controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,0.3),0 -3px 8px rgba(0,0,0,0.2)';
-        controlUI.style.borderRadius = '2px';
-        controlUI.style.backgroundColor = 'white';
-        controlUI.style.cursor = 'pointer';
-        controlUI.style.textAlign = 'center';
-        controlUI.style.padding = '8px';
-        controlUI.style.color = '#666';
-        controlDiv.appendChild(controlUI);
-
-        // Set CSS for the control interior
-        var controlText = document.createElement('div');
-        controlText.style.fontFamily = 'Arial,sans-serif';
-        controlText.style.fontSize = '12px';
-        controlText.style.paddingLeft = '4px';
-        controlText.style.paddingRight = '4px';
-        controlUI.appendChild(controlText);
-
-        var searchBox = document.createElement('input');
-        searchBox.id = "search_address";
-        searchBox.placeholder = 'Search';
-        searchBox.style.fontSize = '16px';
-        controlUI.appendChild(searchBox);
-
-        /*var searchButton = document.createElement('button');
-
-        searchButton.id = "search_address";
-        controlUI.appendChild(searchButton); */
-        //controlText.innerHTML = '<input type="text" id="search_address" value=""/><button onclick="search();">Search</button>';
         var geocoder = new google.maps.Geocoder();
+        var search_value = document.getElementById('search_address');
+        var keywords_value = document.getElementById('keywords');
 
         var search = function search() {
+            console.log("Search");
             geocoder.geocode(
                 {
-                    'address': searchBox.value},
+                    'address': search_value.value},
                 function(results, status) {
                     if (status == google.maps.GeocoderStatus.OK) {
                         var loc = results[0].geometry.location;
@@ -175,16 +142,21 @@ $(document).ready(function () {
             );
         };
 
-        google.maps.event.addDomListener(controlUI, 'keypress', function(e) {
+        var keyword = function keyword() {
+            console.log("keyword", $('#keywords').val());
+            var bounds = map.getBounds();
+            socket.emit("create stream", { lat1: bounds.fa.b, lng1: bounds.$.b, lat2: bounds.fa.d, lng2: bounds.$.d, keyword: $('#keywords').val(), topic: true });
+
+        };
+
+        google.maps.event.addDomListener(document, 'keypress', function(e) {
             if (e.keyCode == 13) {
-                search();
+                if($("#customControls input:focus").attr('id') === 'search_address')
+                    search();
+                else if($("#customControls input:focus").attr('id') === 'keywords')
+                    keyword();
                 return false;
             }
-        });
-
-        // Setup the click event listeners: simply set the map to
-        google.maps.event.addDomListener(controlUI, 'click', function() {
-            search();
         });
 
     }
