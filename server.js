@@ -24,10 +24,10 @@ io.configure(function () {
 });
 
 var twit = new twitter({
-    consumer_key: 'GZqfJsBQM80uRyuGtVcTkw',
-    consumer_secret: 'WqpulpVjUN0WAzejAFzwRiqXoSm98ksYYpe2vPusQ',
-    access_token_key: '47104104-lnUI4JZoaQPlsXo3soZNnnnz14pqcwYUzaD9HiDHt',
-    access_token_secret: 'gOwqsLIiybsyq9AY8jP8lRZJ7inr3oLN1aUYmZwTJ8A'
+    consumer_key: '<key>',
+    consumer_secret: '<secret>',
+    access_token_key: '<token-key>',
+    access_token_secret: '<token-secret>'
 });
 
 io.sockets.on("connection", function (socket) {
